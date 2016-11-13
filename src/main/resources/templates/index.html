@@ -1,12 +1,51 @@
 <!doctype html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" ng-app="app" ng-controller="parent">
 <head>
 	<meta charset="utf-8" />
 	<title th:text="${appName} + ' ' + ${appVersion}"></title>
 	<base th:href="${contextPath} + '/'" href="/" />
+	<link th:href="@{css/app.pack.min.css}" rel="stylesheet" />
+	<script th:inline="javascript">
+	var app;
+	(function(app) {
+		app.meta = {
+			appName:		/*[[${appName}]]*/ '',
+			appVersion:		/*[[${appVersion}]]*/ '',
+			contextPath:	/*[[${contextPath}]]*/ '',
+			baseHref:		/*[[${contextPath} + '/']]*/ '/',
+			requestUri:		/*[[${error['path']} ?: '/']]*/ '/'
+		};
+	})(app || (app = {}));
+	</script>
+	<script th:src="@{js/app.pack.min.js}"></script>
 </head>
 <body>
-	<h1>templates/index.html</h1>
-	<p>requeted uri: <span th:text="${error['path']} ?: '/'">/</span></p>
+	<nav class="navbar navbar-default navbar-fixed-top">
+		<div class="container">
+			<div class="collapse navbar-collapse">
+				<a class="navbar-brand navbar-brand-icon" href="#/">
+					<img alt="Brand" src="" />
+				</a>
+				<a class="navbar-brand" href="#/">
+					<span id="app-name" th:text="${appName}">Sample.app</span>
+					<span id="app-version" th:text="${appVersion}">1.0.0-BETA</span>
+				</a>
+				<ul class="nav navbar-nav">
+					<li ng-class="{'active': navItems.projects}"><a href="#/projects">プロジェクト</a></li>
+					<li ng-class="{'active': navItems.repositories}"><a href="#/repositories">リポジトリ</a></li>
+					<li ng-class="{'active': navItems.users}"><a href="#/users">ユーザ</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right ng-cloak">
+					<li class="navbar-text">
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+					<span id="login-name">foo</span></li>
+					<li><a href="logout">
+					<span class="glyphicon glyphicon-log-out" aria-hidden="true"></span>
+					ログアウト</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div ng-view='ng-view'></div>
 </body>
 </html>
