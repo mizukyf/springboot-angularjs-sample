@@ -1,7 +1,7 @@
 
 -- SEQUENCES
 CREATE SEQUENCE IF NOT EXISTS seq_user;
-CREATE SEQUENCE IF NOT EXISTS seq_role;
+CREATE SEQUENCE IF NOT EXISTS seq_authority;
 CREATE SEQUENCE IF NOT EXISTS seq_task;
 
 -- TABLES
@@ -13,19 +13,19 @@ CREATE TABLE IF NOT EXISTS tab_user (
 	updated_on TIMESTAMP DEFAULT current_timestamp() NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS tab_role (
+CREATE TABLE IF NOT EXISTS tab_authority (
 	id INT NOT NULL PRIMARY KEY,
 	name NVARCHAR NOT NULL UNIQUE,
 	created_on TIMESTAMP DEFAULT current_timestamp() NOT NULL,
 	updated_on TIMESTAMP DEFAULT current_timestamp() NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS tab_user_role (
+CREATE TABLE IF NOT EXISTS tab_user_authority (
 	user_id INT NOT NULL,
-	role_id INT NOT NULL,
+	authority_id INT NOT NULL,
 	created_on TIMESTAMP DEFAULT current_timestamp() NOT NULL,
 	updated_on TIMESTAMP DEFAULT current_timestamp() NOT NULL,
-	PRIMARY KEY (user_id, role_id)
+	PRIMARY KEY (user_id, authority_id)
 );
 
 CREATE TABLE IF NOT EXISTS tab_task (

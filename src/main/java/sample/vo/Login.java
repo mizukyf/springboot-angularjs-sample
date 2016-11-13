@@ -46,6 +46,14 @@ public class Login {
 		return authorities == null || authorities.isEmpty();
 	}
 	public boolean isAdmin(){
-		return authorities != null && authorities.contains(SampleAppGrantedAuthority.ADMINISTRATOR);
+		if (authorities == null) {
+			return false;
+		}
+		for (final GrantedAuthority a : authorities) {
+			if (a.getAuthority().equals(SampleAppGrantedAuthority.NAME_ADMINISTRATOR)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

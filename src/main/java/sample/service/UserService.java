@@ -9,13 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sample.auth.SampleAppGrantedAuthority;
-import sample.mapper.RoleMapper;
+import sample.mapper.AuthorityMapper;
 import sample.mapper.TaskMapper;
 import sample.mapper.UserMapper;
-import sample.mapper.UserRoleMapper;
+import sample.mapper.UserAuthorityMapper;
 import sample.record.LimitOffsetClause;
 import sample.record.OrderByClause;
-import sample.record.Role;
+import sample.record.Authority;
 import sample.vo.Paginated;
 import sample.vo.Pagination;
 import sample.vo.User;
@@ -25,9 +25,9 @@ public class UserService {
 	@Autowired
 	private UserMapper userMapper;
 	@Autowired
-	private RoleMapper roleMapper;
+	private AuthorityMapper roleMapper;
 	@Autowired
-	private UserRoleMapper userRoleMapper;
+	private UserAuthorityMapper userRoleMapper;
 	@Autowired
 	private TaskMapper taskMapper;
 	@Autowired
@@ -74,7 +74,7 @@ public class UserService {
 		userMapper.insert(ru);
 		
 		for (final SampleAppGrantedAuthority va : vu.getAuthorities()) {
-			final Role rr = roleMapper.selectOneByName(va.name());
+			final Authority rr = roleMapper.selectOneByName(va.getName());
 			userRoleMapper.insert(vu.getId(), rr.getId());
 		}
 	}
@@ -94,7 +94,7 @@ public class UserService {
 		userRoleMapper.deleteByUserId(ru.getId());
 		
 		for (final SampleAppGrantedAuthority va : vu.getAuthorities()) {
-			final Role rr = roleMapper.selectOneByName(va.name());
+			final Authority rr = roleMapper.selectOneByName(va.getName());
 			userRoleMapper.insert(vu.getId(), rr.getId());
 		}
 	}
@@ -109,14 +109,14 @@ public class UserService {
 	}
 	
 	private List<SampleAppGrantedAuthority> findAuthoritiesByUserId(int id) {
-		final List<Role> rrs = roleMapper.selectByUserId(id);
+		final List<Authority> rrs = roleMapper.selectByUserId(id);
 		return authorityEnums(rrs);
 	}
 	
-	private List<SampleAppGrantedAuthority> authorityEnums(final List<Role> rrs) {
+	private List<SampleAppGrantedAuthority> authorityEnums(final List<Authority> rrs) {
 		final LinkedList<SampleAppGrantedAuthority> vrs = new LinkedList<SampleAppGrantedAuthority>();
-		for (final Role rr : rrs) {
-			vrs.add(SampleAppGrantedAuthority.valueOf(rr.getName()));
+		for (final Authority ra : rrs) {
+			vrs.add(SampleAppGrantedAuthority.fromRecord(ra));
 		}
 		return vrs;
 	}
