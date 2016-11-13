@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import sample.service.HtmlService;
+
 /**
  * アプリケーション・エラーを示すパスに応答するコントローラ.
  * <p>親クラス{@link BasicErrorController}からの変更点は、
@@ -32,7 +34,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("${server.error.path:${error.path:/error}}")
 public class ErrorController extends BasicErrorController {
 	@Autowired
-	private IndexController indexController;
+	private HtmlService htmlService;
 
 	@Autowired
 	public ErrorController(ServerProperties serverProperties, List<ErrorViewResolver> errorViewResolvers) {
@@ -52,16 +54,15 @@ public class ErrorController extends BasicErrorController {
 		// ＊これはクライアントサイドでHistory APIを使用した擬似的ページ遷移を行うための設定である。
 		// 　この設定がないとページリロードやURL直アクセスのとき404 Not Foundになってしまう。
 		if ((uri == null || !uri.startsWith("/api")) && status == HttpStatus.NOT_FOUND) {
-			final ModelAndView mv404 = indexController.modelAndView(req);
-			mv404.addObject("error", model);
 			resp.setStatus(HttpStatus.OK.value());
+			final ModelAndView mv404 = htmlService.modelAndView("index", HttpStatus.OK, req, model);
 			return mv404;
 		}
 
 		// それ以外のときはステータス・コードはそのままでエラー・ページを表示
 		resp.setStatus(status.value());
 		final ModelAndView modelAndView = resolveErrorView(req, resp, status, model);
-		return (modelAndView == null ? new ModelAndView("error", model) : modelAndView);
+		return (modelAndView == null ? htmlService.modelAndView("error", status, req, model) : modelAndView);
 	}
 	
 	@Override

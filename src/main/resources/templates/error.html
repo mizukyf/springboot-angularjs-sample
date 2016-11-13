@@ -1,0 +1,25 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8" />
+	<title th:text="${appName} + ' ' + ${appVersion}"></title>
+	<base th:href="${contextPath} + '/'" href="/" />
+</head>
+<body>
+	<h1>アプリケーション・エラー</h1>
+	<table>
+		<tr>
+			<th nowrap="nowrap">タイムスタンプ</th>
+			<td th:text="${error.timestamp}"></td>
+		</tr>
+		<tr>
+			<th>ステータス</th>
+			<td><span th:text="${error.status}"></span> <span th:text="${error.error}"></span></td>
+		</tr>
+		<tr>
+			<th>メッセージ</th>
+			<td th:text="${error.message}"></td>
+		</tr>
+	</table>
+</body>
+</html>
