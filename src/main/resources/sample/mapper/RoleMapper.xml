@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sample.mapper.RoleMapper">
+	<select id="selectOneByName" resultType="Role">
+		SELECT 
+			r.id, 
+			r.name, 
+			r.created_on createdOn, 
+			r.updated_on updatedOn 
+		FROM 
+			tab_role r 
+		WHERE 
+			r.name = #{name} 
+	</select>
+	<select id="selectByUserId" resultType="Role">
+		SELECT 
+			r.id, 
+			r.name, 
+			r.created_on createdOn, 
+			r.updated_on updatedOn 
+		FROM 
+			tab_role r 
+		INNER JOIN 
+			tab_user_role ur 
+		ON 
+			r.id = ur.user_id 
+		WHERE 
+			ur.user_id = #{id} 
+	</select>
+</mapper>

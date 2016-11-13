@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sample.mapper.UserMapper">
+	<select id="selectSequenceNextVal" resultType="int">
+		SELECT nextval('seq_user')
+	</select>
+	<select id="selectOneById" resultType="User">
+		SELECT 
+			id, 
+			name, 
+			encoded_password encodedPassword, 
+			created_on createdOn, 
+			updated_on updatedOn 
+		FROM 
+			tab_user 
+		WHERE 
+			id = #{id}
+	</select>
+	<select id="selectOneByName" resultType="User">
+		SELECT 
+			id,
+			name, 
+			encoded_password encodedPassword, 
+			created_on createdOn, 
+			updated_on updatedOn 
+		FROM 
+			tab_user 
+		WHERE 
+			name = #{name}
+	</select>
+	<select id="selectAll" resultType="User">
+		SELECT 
+			id,
+			name, 
+			encoded_password encodedPassword, 
+			created_on createdOn, 
+			updated_on updatedOn 
+		FROM 
+			tab_user 
+		${ob} ${lo}
+	</select>
+	<select id="selectCountAll" resultType="int">
+		SELECT 
+			count(1)
+		FROM 
+			tab_user 
+	</select>
+	<insert id="insert">
+		INSERT INTO 
+			tab_user 
+			(id, name, encoded_password) 
+		VALUES 
+			(#{u.id}, #{u.name}, #{u.encodedPassword})
+	</insert>
+	<update id="update">
+		UPDATE 
+			tab_user 
+		SET 
+			name = #{u.name}, 
+			encoded_password = #{u.encodedPassword}, 
+			updated_on = current_timestamp() 
+		WHERE 
+			id = #{u.id} 
+	</update>
+	<delete id="deleteById">
+		DELETE FROM tab_user WHERE id = #{id}
+	</delete>
+</mapper>

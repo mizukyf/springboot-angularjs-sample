@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sample.mapper.TaskMapper">
+	<select id="selectSequenceNextVal" resultType="int">
+		SELECT nextval('seq_task')
+	</select>
+	<select id="selectOneByTaskIdAndUserId" resultType="Task">
+		SELECT 
+			id,
+			assigned_to assignedTo,
+			title,
+			description,
+			priority,
+			finished, 
+			created_on createdOn, 
+			updated_on updatedOn,
+			finished_on finishedOn
+		FROM 
+			tab_task 
+		WHERE 
+			id = #{tid} 
+			and
+			assigned_to = #{uid}
+	</select>
+	<select id="selectByUserId" resultType="Task">
+		SELECT 
+			id,
+			assigned_to assignedTo,
+			title,
+			description,
+			priority,
+			finished, 
+			created_on createdOn, 
+			updated_on updatedOn,
+			finished_on finishedOn
+		FROM 
+			tab_task 
+		WHERE 
+			assigned_to = #{id}
+		${ob} ${lo}
+	</select>
+	<select id="selectCountByUserId" resultType="int">
+		SELECT 
+			count(1)
+		FROM 
+			tab_task 
+		WHERE 
+			assigned_to = #{id}
+	</select>
+	<insert id="insert">
+		INSERT INTO 
+			tab_task
+			(id, assigned_to, title, description, priority) 
+		VALUES 
+			(#{t.id}, #{t.assignedTo}, #{t.title}, #{t.description}, #{t.priority})
+	</insert>
+	<update id="update">
+		UPDATE 
+			tab_task 
+		SET 
+			title = #{t.title}, 
+			description = #{t.description}, 
+			assined_to = #{t.assignedTo}, 
+			priority = #{t.priority}, 
+			finished = #{t.finished}, 
+			finished_on = #{t.finishedOn}, 
+			updated_on = current_timestamp() 
+		WHERE 
+			id = #{t.id} 
+	</update>
+	<delete id="deleteById">
+		DELETE FROM tab_task WHERE id = #{id}
+	</delete>
+	<delete id="deleteByUserId">
+		DELETE FROM tab_task WHERE assigned_to = #{id}
+	</delete>
+</mapper>
