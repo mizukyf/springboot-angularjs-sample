@@ -29,15 +29,12 @@ public class SampleAppSecurityConfiguration extends WebSecurityConfigurerAdapter
     	if (settings.isAccessControlEnabled()) {
     		// 「有効」と設定されている場合はURLパターンに基づく設定を行う
 	        http.authorizeRequests()
-	            	// トップページおよびいくつかの特別なURLへのアクセスは許可する
-	            	.antMatchers("/**").permitAll()
-	            	// その他のパスへのアクセスには認証パスが必要とする
-	            	.antMatchers("/api/**").hasAnyAuthority(SampleAppGrantedAuthority.OPERATOR.name())
-	            	.antMatchers("/api/users/**", "/api/roles/**").hasAnyAuthority(SampleAppGrantedAuthority.ADMINISTRATOR.name())
-	                .and()
-	                .exceptionHandling()
-	                // 認証が必要なパスに未認証状態でアクセスされた場合に利用するエントリーポイントの設定
-	                .authenticationEntryPoint(new SampleAppAuthenticationEntryPoint());
+        	.antMatchers("/api/users/**", "/api/roles/**").hasAnyAuthority(SampleAppGrantedAuthority.NAME_ADMINISTRATOR)
+        	.antMatchers("/api/**").hasAnyAuthority(SampleAppGrantedAuthority.NAME_OPERATORY)
+            .and()
+            .exceptionHandling()
+            // 認証が必要なパスに未認証状態でアクセスされた場合に利用するエントリーポイントの設定
+            .authenticationEntryPoint(new SampleAppAuthenticationEntryPoint());
 	        
 	        if (settings.isXsrfProtectionEnabled()) {
 	            // CSRF（XSRF）対策をON（デフォルトでON）、トークン・リポジトリを設定
