@@ -1,0 +1,12 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8" />
+	<title th:text="${appName} + ' ' + ${appVersion}"></title>
+	<base th:href="${contextPath} + '/'" href="/" />
+</head>
+<body>
+	<h1>templates/index.html</h1>
+	<p>requeted uri: <span th:text="${error['path']} ?: '/'">/</span></p>
+</body>
+</html>
