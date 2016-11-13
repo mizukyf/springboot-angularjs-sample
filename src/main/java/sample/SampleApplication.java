@@ -9,14 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.*;
 import org.springframework.boot.autoconfigure.*;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 
-@EnableAutoConfiguration
-@ComponentScan
+@SpringBootApplication
 public class SampleApplication {
 	
-	private static final String MAPPER_SCAN_BASE_PACKAGE = "sample.mapper";
-	private static final String TYPE_ALIASES_PACKAGE = "sample.entity";
+	private static final String MAPPER_SCAN_BASE_PACKAGE = SampleApplication.class.getPackage().getName() + ".mapper";
+	private static final String TYPE_ALIASES_PACKAGE = SampleApplication.class.getPackage().getName() + ".record";
 
     @Bean
     @Autowired
