@@ -13,7 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 public class SampleAppSettings {
 	@Value("${sample.app.name:Sample.app}")
 	private String appName;
-	@Value("${sample.app.version:1.0-BETA}")
+	@Value("${sample.app.version:1.0.0-BETA}")
 	private String appVersion;
 	@Value("${sample.xsrf.protection.enabled:true}")
 	private boolean xsrfProtectionEnabled;
